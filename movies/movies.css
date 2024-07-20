@@ -1,0 +1,191 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color: #fff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+header {
+    padding: 20px;
+    background-color: #141414;
+}
+
+header h1 {
+    display: inline-block;
+    font-size: 2rem;
+    color: #e50914;
+}
+/* navigation bar */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+nav h1 {
+    font-size: 2rem;
+    color: #e50914;
+    margin: 0;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    font-size: 1rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+nav a:hover {
+    color: #e50914;
+    border-bottom: 2px solid #e50914;
+}
+
+.search{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+}
+.search-input {
+    background-color: #333;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.profile-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #333;
+    border-radius: 50%;
+}
+
+
+/*Main screen*/
+main {
+    padding: 20px;
+}
+
+/* Category section */
+.category {
+    margin-bottom: 40px;
+}
+
+.category h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Shows card */
+.shows {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    
+}
+
+.show-card {
+    width: 150px;
+    flex: 0 0 auto; 
+    margin-right: 10px;
+}
+
+/* For Scroll bar functionality */
+.shows:active {
+    cursor: grabbing; /* Change cursor on active drag */
+}
+/*  */
+
+/* image styles */
+.imgLink{
+    text-decoration: none;
+
+}
+.show-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* popup div */
+
+
+/* Styles for the modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    display: flex;
+    flex-direction: row;
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal h2,p{
+    color: #000;
+}
+
+.pop-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    padding: 50px;
+}
