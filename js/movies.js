@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Fetch error:", error);
       return [];
     }
+    
   };
 
   // Get 20 movies
