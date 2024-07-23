@@ -8,46 +8,10 @@ body {
     color: white;
 }
 
-/* Header Styles */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #000;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: yellow;
-}
-
-nav ul {
-    display: flex;
-    list-style-type: none;
-}
-
-nav ul li {
-    margin-right: 20px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
-
-.search-bar input {
-    padding: 5px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-}
-
 /* Main Section Styles */
-main {
+/* main {
     padding: 20px;
-}
+} */
 
 .featured {
     background-image: url('img/featured.jpg');

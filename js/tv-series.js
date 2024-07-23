@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const response = await fetch(`http://www.omdbapi.com/?s=${SEARCH_TERM}&apikey=${API_KEY}&page=${page}`);
       const data = await response.json();
+      console.log(data);
       if (data.Response === "True") {
         return data.Search || [];
       } else {
