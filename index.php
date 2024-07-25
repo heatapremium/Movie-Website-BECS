@@ -38,7 +38,7 @@
                 <button>Start watching</button>
             </div>
         </section>
-
+        
         <section class="movies">
             <h2>Movies</h2>
             <div class="movie-list">
