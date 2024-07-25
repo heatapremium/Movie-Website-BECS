@@ -24,7 +24,7 @@ header {
 header h1 {
     display: inline-block;
     font-size: 2rem;
-    color: #e50914;
+    color: yellow;
 }
 /* navigation bar */
 
@@ -37,7 +37,7 @@ nav {
 
 nav h1 {
     font-size: 2rem;
-    color: #e50914;
+    color: yellow;
     margin: 0;
 }
 
@@ -60,8 +60,8 @@ nav a {
 }
 
 nav a:hover {
-    color: #e50914;
-    border-bottom: 2px solid #e50914;
+    color: yellow;
+    border-bottom: 2px solid yellow;
 }
 
 .search{

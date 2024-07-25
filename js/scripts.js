@@ -9,3 +9,4 @@ document.querySelectorAll('button').forEach(button => {
         alert('Start watching functionality to be implemented.');
     });
 });
+ 
