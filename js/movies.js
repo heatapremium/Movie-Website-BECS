@@ -1,75 +1,83 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const allMovies = [];
-  const API_KEY = "da9fb976";
-  const SEARCH_TERM = "batman";
+  const allData = [];
 
   // Fetch movies
-  const fetchMovies = async (page = 1) => {
+  async function fetchData() {
     try {
-      const response = await fetch(`http://www.omdbapi.com/?s=${SEARCH_TERM}&apikey=${API_KEY}&page=${page}`);
+      const response = await fetch('http://localhost:3000/backend/fetch_allmovies.php');
       const data = await response.json();
-      if (data.Response === "True") {
-        return data.Search || [];
-      } else {
-        console.error("Error fetching data:", data.Error);
-        return [];
-      }
+      allData.push(...data); // Use spread operator to avoid nested arrays
     } catch (error) {
-      console.error("Fetch error:", error);
-      return [];
+      console.error('Error fetching data:', error);
     }
-    
-  };
+  }
 
-  // Get 20 movies
-  const get20Movies = async () => {
-    try {
-      const moviesPage1 = await fetchMovies(1);
-      const moviesPage2 = await fetchMovies(2);
-      allMovies.push(...moviesPage1, ...moviesPage2);
-      console.log(allMovies);
-    } catch (error) {
-      console.error("Error getting movies:", error);
-    }
-  };
-
-  get20Movies().then(() => {
-    const comedySection = document.querySelector(".category:nth-child(1) .shows");
-    const horrorSection = document.querySelector(".category:nth-child(2) .shows");
+  function renderMovies() {
+    const actionSection = document.querySelector(".category:nth-child(1) .shows");
+    const adventureSection = document.querySelector(".category:nth-child(2) .shows");
+    const animationSection = document.querySelector(".category:nth-child(3) .shows");
+    const comedySection = document.querySelector(".category:nth-child(4) .shows");
+    const horrorSection = document.querySelector(".category:nth-child(5) .shows");
 
     // Clear sections before rendering
+    actionSection.innerHTML = '';
+    adventureSection.innerHTML = '';
+    animationSection.innerHTML = '';
     comedySection.innerHTML = '';
     horrorSection.innerHTML = '';
 
-    allMovies.forEach((movie) => {
+    allData.forEach((movie) => {
+      // Creating the show card
       const div = document.createElement("div");
       div.classList.add("show-card");
 
+      // Creating the image link
       const imgLink = document.createElement("a");
-      imgLink.href = movie.TrailerLink || "#"; // Use a fallback if TrailerLink is not available
       imgLink.classList.add("imgLink");
 
+      // Creating the image
       const img = document.createElement("img");
-      img.src = movie.Poster;
+      img.src = movie.poster_url;
       imgLink.appendChild(img);
 
+      // Add modal to each div
       imgLink.addEventListener('click', (event) => {
         event.preventDefault();
         openModal(movie);
       });
 
       const titleLink = document.createElement("a");
-      titleLink.href = movie.TrailerLink || "#"; // Use a fallback if TrailerLink is not available
-      titleLink.textContent = movie.Title;
+      titleLink.textContent = movie.name;
       titleLink.classList.add("title-link");
 
       div.appendChild(imgLink);
       div.appendChild(titleLink);
 
-      // Adjust condition to categorize movies
-      comedySection.appendChild(div);
-      horrorSection.appendChild(div);
+      // Adjust condition to categorize movies (example categorization)
+      switch (movie.category) {
+        case "action":
+          actionSection.appendChild(div);
+          break;
+        case "adventure":
+          adventureSection.appendChild(div);
+          break;
+        case "animation":
+          animationSection.appendChild(div);
+          break;
+        case "comedy":
+          comedySection.appendChild(div);
+          break;
+        case "horror":
+          horrorSection.appendChild(div);
+          break;
+        default:
+          console.log("No category found");
+      }
     });
+  }
+
+  fetchData().then(() => {
+    renderMovies();
   }).catch((error) => {
     console.error("Error in processing movies:", error);
   });
@@ -79,35 +87,87 @@ document.addEventListener("DOMContentLoaded", () => {
   modal.classList.add('modal');
   document.body.appendChild(modal);
 
-  const modalContent = document.createElement('div');
-  modalContent.classList.add('modal-content');
-  modal.appendChild(modalContent);
-
-  const closeButton = document.createElement('span');
-  closeButton.classList.add('close');
-  closeButton.textContent = '×';
-  modalContent.appendChild(closeButton);
+  const insideContent = document.createElement('div');
+  insideContent.classList.add('modal-content');
+  modal.appendChild(insideContent);
 
   function openModal(movie) {
-    console.log(movie);
-    modalContent.innerHTML = `
-      <img src="${movie.Poster}" style="width: 100%; max-width: 300px; height: auto;">
+    insideContent.innerHTML = `
+      <img src="${movie.poster_url}" style="width: 100%; max-width: 300px; height: auto;">
       <div class="pop-details">
-      <h2>${movie.Title}</h2>
-      <p>Year: ${movie.Year}</p>
-      <p>IMDB Rating: ${movie.imdbRating || 'N/A'}</p>
+        <h2>${movie.name}</h2>
+        <p>Year: ${movie.year}</p>
+        <p>IMDB Rating: ${movie.rating || 'N/A'}</p>
+        <p>Genre: ${movie.category}</p>
+        <p>Description: ${movie.description}</p>
       </div>
+      <span class="close">&times;</span>
     `;
     modal.style.display = "block";
   }
 
-  closeButton.addEventListener('click', () => {
-    modal.style.display = "none";
-  });
-
   window.addEventListener('click', (event) => {
     if (event.target === modal) {
       modal.style.display = "none";
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('close')) {
+      modal.style.display = "none";
+    }
+  });
+
+  // Search functionality
+  function searchMoviesRender(result) {
+    const searchSection = document.getElementById("search");
+    searchSection.innerHTML = '';
+
+    result.forEach((movie) => {
+      // Creating the show card
+      const div = document.createElement("div");
+      div.classList.add("show-card");
+
+      // Creating the image link
+      const imgLink = document.createElement("a");
+      imgLink.classList.add("imgLink");
+
+      // Creating the image
+      const img = document.createElement("img");
+      img.src = movie.poster_url;
+      imgLink.appendChild(img);
+
+      // Add modal to each div
+      imgLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        openModal(movie);
+      });
+
+      const titleLink = document.createElement("a");
+      titleLink.textContent = movie.name;
+      titleLink.classList.add("title-link");
+
+      div.appendChild(imgLink);
+      div.appendChild(titleLink);
+
+      searchSection.appendChild(div); // Append to search section
+    });
+  }
+
+  const searchInput = document.getElementById('search-input');
+  const categoriesSection = document.querySelector('.categories');
+
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    const filteredMovies = allData.filter(movie => movie.name.toLowerCase().includes(query));
+
+    if (query) {
+      categoriesSection.style.display = 'none'; 
+      document.getElementById("search").style.display = 'flex'; 
+      searchMoviesRender(filteredMovies);
+    } else {
+      categoriesSection.style.display = 'block'; 
+      document.getElementById("search").style.display = 'none'; 
     }
   });
 

@@ -118,6 +118,12 @@ main {
     margin-right: 10px;
 }
 
+.show-card:hover {
+    transition: all 0.3s;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
 /* For Scroll bar functionality */
 .shows:active {
     cursor: grabbing; /* Change cursor on active drag */
@@ -139,14 +145,14 @@ main {
 
 /* Styles for the modal */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    width: 100vw; 
+    height: 100vh; 
+    overflow: auto; 
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
@@ -154,17 +160,17 @@ main {
 /* Modal content */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 10% auto; 
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%; 
     display: flex;
     flex-direction: row;
 }
 
 /* Close button */
 .close {
-    color: #aaa;
+    color: #000000;
     float: right;
     font-size: 28px;
     font-weight: bold;
