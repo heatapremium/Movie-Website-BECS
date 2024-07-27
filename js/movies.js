@@ -1,16 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
   const allData = [];
 
+  // loading spinner
+  const loadingSpinner = document.querySelector('.loading-spinner');
+//]================================================================================================
   // Fetch movies
   async function fetchData() {
     try {
       const response = await fetch('http://localhost:3000/backend/fetch_allmovies.php');
       const data = await response.json();
-      allData.push(...data); // Use spread operator to avoid nested arrays
+      allData.push(...data); 
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
+      
+      loadingSpinner.style.display = 'none';
     }
   }
+
+
+  // Render movies================================================================================================
 
   function renderMovies() {
     const actionSection = document.querySelector(".category:nth-child(1) .shows");
@@ -53,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.appendChild(imgLink);
       div.appendChild(titleLink);
 
-      // Adjust condition to categorize movies (example categorization)
+      // Adjust condition to categorize movies 
       switch (movie.category) {
         case "action":
           actionSection.appendChild(div);
@@ -76,13 +85,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Call the fetchData function================================================================================================
+
   fetchData().then(() => {
     renderMovies();
   }).catch((error) => {
     console.error("Error in processing movies:", error);
   });
 
-  // Create the modal
+  // Create the modal================================================================================================
   const modal = document.createElement('div');
   modal.classList.add('modal');
   document.body.appendChild(modal);
@@ -91,15 +102,35 @@ document.addEventListener("DOMContentLoaded", () => {
   insideContent.classList.add('modal-content');
   modal.appendChild(insideContent);
 
+
+  // for youtube videos================================================================================================
+
+  function getYouTubeId(url) {
+    try {
+      const videoUrl = new URL(url);
+      const params = new URLSearchParams(videoUrl.search);
+      return params.get('v'); 
+    } catch (error) {
+      console.error('Invalid URL:', error);
+      return null;
+    }
+  }
+
   function openModal(movie) {
+    const videoId = getYouTubeId(movie.video_url);
     insideContent.innerHTML = `
+      <div>
       <img src="${movie.poster_url}" style="width: 100%; max-width: 300px; height: auto;">
+      </div>
       <div class="pop-details">
         <h2>${movie.name}</h2>
         <p>Year: ${movie.year}</p>
         <p>IMDB Rating: ${movie.rating || 'N/A'}</p>
         <p>Genre: ${movie.category}</p>
         <p>Description: ${movie.description}</p>
+        <iframe width="100%" height="360px"
+                  src="https://www.youtube.com/embed/${videoId}">
+        </iframe>
       </div>
       <span class="close">&times;</span>
     `;
@@ -118,90 +149,84 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Search functionality
-  function searchMoviesRender(result) {
-    const searchSection = document.getElementById("search");
+  // Search functionality================================================================================================
+
+function searchMoviesRender(result) {
+  const searchSection = document.getElementById('search');
+  searchSection.innerHTML = '';
+
+  result.forEach((movie) => {
+    // Creating the show card
+    const div = document.createElement('div');
+    div.classList.add('show-card');
+
+    // Creating the image link
+    const imgLink = document.createElement('a');
+    imgLink.classList.add('imgLink');
+
+    // Creating the image
+    const img = document.createElement('img');
+    img.src = movie.poster_url;
+    imgLink.appendChild(img);
+
+    // Add modal to each div
+    imgLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      openModal(movie);
+    });
+
+    const titleLink = document.createElement('a');
+    titleLink.textContent = movie.name;
+    titleLink.classList.add('title-link');
+
+    div.appendChild(imgLink);
+    div.appendChild(titleLink);
+
+    searchSection.appendChild(div); // Append to search section
+  });
+}
+
+const searchInput = document.getElementById('search-input');
+const categoriesSection = document.querySelector('.categories');
+const searchSection = document.getElementById('search');
+
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const filteredMovies = allData.filter(movie => movie.name.toLowerCase().includes(query));
+
+  if (query) {
+    categoriesSection.style.display = 'none'; 
+    searchSection.style.display = 'flex';
+    
+    // Clear previous search results
     searchSection.innerHTML = '';
 
-    result.forEach((movie) => {
-      // Creating the show card
-      const div = document.createElement("div");
-      div.classList.add("show-card");
-
-      // Creating the image link
-      const imgLink = document.createElement("a");
-      imgLink.classList.add("imgLink");
-
-      // Creating the image
-      const img = document.createElement("img");
-      img.src = movie.poster_url;
-      imgLink.appendChild(img);
-
-      // Add modal to each div
-      imgLink.addEventListener('click', (event) => {
-        event.preventDefault();
-        openModal(movie);
-      });
-
-      const titleLink = document.createElement("a");
-      titleLink.textContent = movie.name;
-      titleLink.classList.add("title-link");
-
-      div.appendChild(imgLink);
-      div.appendChild(titleLink);
-
-      searchSection.appendChild(div); // Append to search section
-    });
-  }
-
-  const searchInput = document.getElementById('search-input');
-  const categoriesSection = document.querySelector('.categories');
-
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-    const filteredMovies = allData.filter(movie => movie.name.toLowerCase().includes(query));
-
-    if (query) {
-      categoriesSection.style.display = 'none'; 
-      document.getElementById("search").style.display = 'flex'; 
-      searchMoviesRender(filteredMovies);
+    if (filteredMovies.length === 0) {
+      searchSection.innerHTML = `<h2>No results found for "${query}"</h2>`;
     } else {
-      categoriesSection.style.display = 'block'; 
-      document.getElementById("search").style.display = 'none'; 
+      searchMoviesRender(filteredMovies);
     }
-  });
+  } else {
+    categoriesSection.style.display = 'block'; 
+    searchSection.style.display = 'none';
+  }
+});
 
-  // Scroll bar functionality
-  const shows = document.querySelectorAll(".shows");
 
-  shows.forEach((show) => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    show.addEventListener("mousedown", (e) => {
-      isDown = true;
-      show.classList.add("active");
-      startX = e.pageX - show.offsetLeft;
-      scrollLeft = show.scrollLeft;
+  // Arrow for Scrolling================================================================================================
+  const scrollContainers = document.querySelectorAll('.category .shows');
+  const leftArrows = document.querySelectorAll('.arrow-left');
+  const rightArrows = document.querySelectorAll('.arrow-right');
+  console.log(scrollContainers);
+  
+  scrollContainers.forEach((container, i) => {
+   
+    leftArrows[i].addEventListener('click', () => {
+      container.scrollBy({ left: -150, behavior: 'smooth' }); // Scroll left
     });
 
-    show.addEventListener("mouseleave", () => {
-      isDown = false;
-      show.classList.remove("active");
-    });
-
-    show.addEventListener("mouseup", () => {
-      isDown = false;
-      show.classList.remove("active");
-    });
-
-    show.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - show.offsetLeft;
-      const walk = (x - startX) * 3; // scroll-fast
-      show.scrollLeft = scrollLeft - walk;
+    rightArrows[i].addEventListener('click', () => {
+      container.scrollBy({ left: 150, behavior: 'smooth' }); // Scroll right
     });
   });
 });
