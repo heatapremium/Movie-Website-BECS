@@ -102,3 +102,33 @@ footer {
     bottom: 0;
     width: 100%;
 }
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.image {
+    flex: 1;
+    text-align: center;
+}
+
+.text {
+    flex: 2;
+    text-align: center;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.container .left {
+    text-align: right;
+}
+
+.container .right {
+    text-align: left;
+}
+

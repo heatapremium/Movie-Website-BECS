@@ -104,3 +104,88 @@ nav a:hover {
   background-color: #333;
   border-radius: 50%;
 }/*# sourceMappingURL=new-styles.css.map */
+
+.additional-content {
+  padding: 2rem;
+  background-color: #141414;
+  color: #fff;
+}
+
+.content-section {
+  margin-bottom: 2rem;
+}
+
+.content-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.content-section p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.content-section img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.faq-section {
+  margin-bottom: 2rem;
+}
+
+.faq-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.faq-section ul {
+  list-style-type: circle;
+  padding: 0;
+}
+
+.faq-section ul li {
+  margin-bottom: 0.5rem;
+  margin-left: 3rem;
+}
+
+.faq-section ul li a {
+  color: #fff;
+  text-decoration: circle;
+}
+
+.faq-section ul li a:hover {
+  text-decoration: underline;
+}
+
+.cta-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.cta-section p {
+  margin-bottom: 1rem;
+}
+
+.cta-section input[type="email"] {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 2px;
+}
+
+.cta-section button {
+  padding: 0.5rem 1rem;
+  background-color: yellow;
+  border: none;
+  border-radius: 2px;
+  color: #020000;
+  cursor: pointer;
+}
+
+.cta-section button:hover {
+  background-color: rgb(255, 255, 0);
+}
