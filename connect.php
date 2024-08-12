@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
     $db_server = "localhost";
     $db_user = "root";
-    $db_pass = "Thusitha@123";
+    $db_pass = "root";
     $db_name = "newdb";
     $conn = new mysqli($db_server,$db_user,$db_pass, $db_name);
 
