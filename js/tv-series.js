@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch shows data
   async function fetchData() {
     try {
-      const response = await fetch('http://localhost:3000/backend/fetch_allTvshows.php');
+      const response = await fetch('http://localhost/cineflex/fetch_allTvshows.php');
       const data = await response.json();
       allData.push(...data); 
     } catch (error) {
@@ -195,7 +195,6 @@ searchInput.addEventListener('input', (e) => {
   const scrollContainers = document.querySelectorAll('.category .shows');
   const leftArrows = document.querySelectorAll('.arrow-left');
   const rightArrows = document.querySelectorAll('.arrow-right');
-  console.log(scrollContainers);
   
   scrollContainers.forEach((container, i) => {
    
