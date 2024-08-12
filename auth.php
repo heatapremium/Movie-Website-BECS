@@ -1,6 +1,6 @@
 <?php
 include("connect.php");
-
+// register
 if (isset($_POST['signUp'])) {
     $firstName = $_POST['fname'];
     $lastName = $_POST['lname'];
@@ -18,13 +18,14 @@ if (isset($_POST['signUp'])) {
     } else {
         $insertQuery = "INSERT INTO users(fname,lname,email,password) VALUES ('$firstName','$lastName','$email','$password')";
         if ($conn->query($insertQuery) == TRUE) {
-            header("location: auth.php");
+            header("location: login.php");
         } else {
             echo "error:" . $conn->error;
         }
     }
 }
 
+// login
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -42,3 +43,4 @@ if (isset($_POST['signIn'])) {
         echo "Not Found, Incorrect Email or Password";
     }
 }
+?>

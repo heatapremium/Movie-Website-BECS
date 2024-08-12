@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Fetch movies
   async function fetchData() {
     try {
-      const response = await fetch('http://localhost:3000/backend/fetch_allmovies.php');
+      const response = await fetch('http://localhost/cineflex/fetch_allmovies.php');
       const data = await response.json();
       allData.push(...data); 
+      // console.log(allData,"moviesssss");
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -217,7 +218,6 @@ searchInput.addEventListener('input', (e) => {
   const scrollContainers = document.querySelectorAll('.category .shows');
   const leftArrows = document.querySelectorAll('.arrow-left');
   const rightArrows = document.querySelectorAll('.arrow-right');
-  console.log(scrollContainers);
   
   scrollContainers.forEach((container, i) => {
    
